@@ -1,28 +1,49 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div>
+    <h1>Vue JS + Axios => Get Data</h1>
+    <div>
+      <div class="post" v-for="post in posts" :key="post.id">
+        <h3>Title: {{ post.title }}</h3>
+        <p>Description: {{ post.body }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from "axios";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
+  name: 'AxiosPractice',
+  data() {
+    return {
+      posts: []
+    }
+  },
+  mounted() {
+    var self = this;
+    axios.get('https://jsonplaceholder.typicode.com/posts')
+    .then((res) => {
+      self.posts = res.data;
+      console.log('Data: ', res);
+    })
+    .catch((err) => {
+      console.log('Error: ', err)
+    })
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style type="text/css">
+.post {
+  background: #ccc;
+  margin-bottom: 20px;
+  padding: 10px 20px;
+}
+h3 {
+  text-align: left;
+}
+p {
+  text-align: left;
 }
 </style>
